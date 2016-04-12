@@ -39,10 +39,13 @@
              fjs.parentNode.insertBefore(js, fjs);
            }(document, 'script', 'facebook-jssdk'));
 </script>
+<div id = "progressDiv">
+    <a id="progressIcon" class="progressIcon-Animate" href="#"><i class="fa fa-spinner"></i></a>
+</div>
 <div class="container-fluid outermostContainer">
-  <div id="home-contents" class="well">
+  <div id="home-contents" class="well hidden">
     <div id="townTempBar">
-        <span id="townAndState">Town, State: </span>
+        <span id="townAndState">Town, State: and a bunch of other stuff</span>
         <div id="tempAndFeelsLike">
             <div id="tempAndToggle"><div id="conditionsIcon"></div><span id = "temp"></span><a id='tempToggle' class='tempToggleClass'></a></div>
             <div id="fLike">Feels like: <span id="feelsLike"></span></div>
@@ -69,7 +72,7 @@
         </tr>
     </table>
     <ul id="social-media-buttons">
-      <li class="social-media"><a id="twitter_button" class="wButtons" href="https://twitter.com/share" target="_blank" data-text="Hello World!"><i class="fa fa-twitter"></i></a></li>
+      <!--TWITTER NOT SUPPORTED YET<li class="social-media"><a id="twitter_button" class="wButtons" href="https://twitter.com/share" target="_blank" data-text="Hello World!"><i class="fa fa-twitter"></i></a></li>-->
       <!--FACEBOOK NOT FULLY SUPPORTED YET<li class="social-media"><a id="fb_button" class="wButtons" href="#"><i class="fa fa-facebook"></i></a></li>-->
       <!--<li class="social-media"><a id="tumblr_button" class="wButtons" href="#"><i class="fa fa-tumblr"></i></a></li>-->
       <!--FOR TESTING PURPOSES ONLY <li class="social-media"><a id="testButton" class="wButtons" href="#">T</a></li>-->

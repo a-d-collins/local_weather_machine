@@ -1,6 +1,9 @@
 A Pen created at CodePen.io. You can find this one at http://codepen.io/a-d-collins/pen/eJXePv.
 
- Weather_Machine_v.1.2
+ Weather_Machine_v.1.3
+ 
+1.3:
+-- Loading screen (or at least a cheap version)
 
 1.2:
 -- Get general layout setup

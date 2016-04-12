@@ -16,11 +16,17 @@ var fcToggleTracker;
 // initiate loading screen
 function initLoadingScreen() {}
 
-// disable loading screen
-function disableLoadingScreen() {}
+// hide loading icon and show #home-contents
+// NOTE: This (and the corresponding html and css) is a cheap implementation of a loading page
+// For a much much much better (and cooler) version see here: https://ihatetomatoes.net/create-css3-spinning-preloader/
+// and here: https://ihatetomatoes.net/create-custom-preloading-screen/
+function disableLoadingScreen() {
+    $('#progressDiv').addClass('hidden');
+    $('#home-contents').removeClass('hidden');
+}
 
 // TODO: Obtain JSON from weather underground's closest PWS (personal weather station)
-function wUndergroundData(pwsid, callback) {
+function wUndergroundData(pwsid, callback1, callback2) {
     // TODO: Obtain JSON from weather underground's closest PWS (personal weather station)
     var jsonurl = "http://api.wunderground.com/api/df2e1eae3a020940/geolookup/conditions/q/pws:" + pwsid + ".json";
     $.ajax({
@@ -42,9 +48,13 @@ function wUndergroundData(pwsid, callback) {
             $('#dewPoint').html(weatherData.dewpoint_f);
             $('#humidity').html(weatherData.relative_humidity);
             
-            if (typeof callback === "function") {
+            if (typeof callback1 === "function") {
                 // Load Temperature-Based Background (TBB)
-                callback(weatherData.temp_f);
+                callback1(weatherData.temp_f);
+            }
+            if (typeof callback2 === "function") {
+                // DISABLE PROGRESS ICON AND MAKE HOME-CONTENTS VISIBLE
+                callback2();
             }
         }
     });
@@ -72,7 +82,7 @@ function closestPWS(latitude, longitude, callback) {
                 //alert("Current pws in " + location + " is: " + pws.neighborhood);
                 //alert("Current pws in " + location + " is: " + pwsid);
                 
-                callback(pwsid, loadTBB);
+                callback(pwsid, loadTBB, disableLoadingScreen);
             }
         });
     }
@@ -183,14 +193,12 @@ function preparePage() {
 
 // load page
 function loadPage() {
-    // TODO: INITIATE LOADING SCREEN
+    // TODO: INITIATE LOADING ICON (Or have it load right away...)
     /*initLoadingScreen();*/
     // Update GPS location of user
     gpsLocation(closestPWS);
     // prepare page
     /*preparePage();*/
-    // TODO: DISABLE LOADING SCREEN
-    /*disableLoadingScreen();*/
 }
 
 // On page launch:

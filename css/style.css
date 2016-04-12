@@ -1,6 +1,7 @@
 .outermostContainer {
   padding: 0px;
   text-align: center;
+  position: relative;
 }
 
 #home-contents {
@@ -10,6 +11,7 @@
     border-radius: 10px;
     margin-top: 90px;
     margin-bottom: 60px;
+    color: black;
 }
 
 #townTempBar {
@@ -22,6 +24,9 @@
     position: absolute;
     top: 6px;
     left: 0px;
+    width: 250px;
+    height: auto;
+    text-align: left;
 }
 
 #tempAndFeelsLike {
@@ -69,11 +74,11 @@
 
 #weatherDataTable {
     width:80%;
+    margin-top: 25px;
     margin-bottom: inherit;
     text-align: left;
     margin-left: auto;
     margin-right: auto;
-    
 }
 
 td {
@@ -198,11 +203,6 @@ body {
   }
 }*/
 
-#home-contents {
-    color: black;
-    opacity: 0.9;
-}
-
 .bottomBar {
   position: fixed;
   bottom: 0;
@@ -217,4 +217,34 @@ body {
   left: 0%;
   top: 5%;
   width: 100%;
+}
+
+#progressIcon {
+    position: absolute;
+    height: 70px;
+    width: 70px;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    color: deepskyblue;
+    font-size: 70px;
+    line-height: 70px;
+}
+
+/*source: http://www.bootply.com/128062#*/
+.progressIcon-Animate {
+    -animation: spin 1s infinite linear;
+    -webkit-animation: spin2 1s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
 }
