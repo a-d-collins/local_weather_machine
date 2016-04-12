@@ -53,7 +53,7 @@ h3, h5, .quoteButtons {
     border-radius: 5px;
 }
 
-#randomQuoteButton {
+#fcToggleBtn {
     position: absolute;
     right: 37px;
     bottom: 25px;
@@ -67,12 +67,16 @@ h3, h5, .quoteButtons {
     transition: background-color 0.3s ease;
 }
 
-#randomQuoteButton:hover {
+#fcToggleBtn:hover {
     /* This, oddly, doesn't do anything after the first color change...
     background-color: slategray;*/
     /* ahhh... but THIS does. */
     background-color: slategray!important;
     transition: background-color 0.3s ease;
+}
+
+#tempToggle {
+    cursor: pointer;
 }
 
 .quoteButtons {

@@ -7,6 +7,12 @@
 // JSON variable holding weather data
 var weatherData;
 
+// pws variable
+var pws;
+
+// fcToggleTracker
+var fcToggleTracker;
+
 // initiate loading screen
 function initLoadingScreen() {}
 
@@ -14,16 +20,57 @@ function initLoadingScreen() {}
 function disableLoadingScreen() {}
 
 // TODO: Obtain JSON from weather underground's closest PWS (personal weather station)
-function wUndergroundData(callback) {
-    // TODO: FIND CLOSEST WEATHER STATION TO CURRENT GPS COORDS (return PWS name as string!)
-    var pws = closestPWS();
+function wUndergroundData(pwsid, callback) {
     // TODO: Obtain JSON from weather underground's closest PWS (personal weather station)
-    weatherData = output;
+    var jsonurl = "http://api.wunderground.com/api/df2e1eae3a020940/geolookup/conditions/q/pws:" + pwsid + ".json";
+    $.ajax({
+        url : jsonurl,
+        dataType : "jsonp",
+        success : function(parsed_json) {
+            var location = parsed_json['location']['city'];
+            weatherData = parsed_json['current_observation'];
+            var temp_f = weatherData['temp_f'];
+            $('#quote').html("Current temperature in " + pws.neighborhood + " is: ");
+            $('#temp').html(temp_f + "&deg;");
+            $('#tempToggle').html("F");
+            fcToggleTracker = 'f';
+        }
+    });
+    
     
     if (typeof callback === "function") {
-        return callback();
+        
     }
-};
+}
+
+// Determine closest PWS then call wUndergroundData function using PWS info
+function closestPWS(latitude, longitude, callback) {
+    if (latitude === undefined) {
+        alert("Latitude is undefined");
+    } else if (longitude === undefined) {
+        alert("Longitude is undefined");
+    } else {
+        // http://api.wunderground.com/api/df2e1eae3a020940/geolookup/q/37.776289,-122.395234.json
+        var jsonurl = "http://api.wunderground.com/api/df2e1eae3a020940/geolookup/q/" + latitude + "," + longitude + ".json";
+        $.ajax({
+            url : jsonurl,
+            dataType : "jsonp",
+            success : function(parsed_json) {
+                var pwstations = parsed_json['location']['nearby_weather_stations']['pws']['station'];
+                // Your true pws is first (position 0) on the list
+                pws = pwstations[0];
+                var location = pws["city"];
+                var pwsid = pws["id"];
+                // TEST ALERTS
+                //alert("Current pws in " + location + " is: " + pws.neighborhood);
+                //alert("Current pws in " + location + " is: " + pwsid);
+                
+                callback(pwsid);
+            }
+        });
+    }
+}
+
 
 // Determine GPS location
 function gpsLocation (callback) {
@@ -31,10 +78,9 @@ function gpsLocation (callback) {
         navigator.geolocation.getCurrentPosition(function(position) {
             var latitude = position.coords.latitude;
             var longitude = position.coords.longitude;
-    
-            //$("#quote").html("latitude: " + gps.latitude + "<br>longitude: " + gps.longitude);
+            //$("#quote").html("latitude: " + latitude + "<br>longitude: " + longitude);
             if (typeof callback === "function") {
-                return callback(latitude, longitude);
+                callback(latitude, longitude, wUndergroundData);
             }
         });
     }
@@ -110,13 +156,13 @@ function preparePage() {
 // load page
 function loadPage() {
     // TODO: INITIATE LOADING SCREEN
-    initLoadingScreen();
-    // TODO: Obtain JSON from weather underground's closest PWS (personal weather station)
-    wUndergroundData();
+    /*initLoadingScreen();*/
+    // TODO: Update GPS location of user
+    gpsLocation(closestPWS);
     // prepare page
-    preparePage();
+    /*preparePage();*/
     // TODO: DISABLE LOADING SCREEN
-    disableLoadingScreen();
+    /*disableLoadingScreen();*/
 }
 
 // On page launch:
@@ -124,5 +170,17 @@ $(document).ready(function (){
     // display page information
     loadPage();
     // Listen for button/other activity on web page
-    
+    // Farenheit-celsius toggle button (a.k.a. fcToggleBtn)
+    $('#tempToggle').click(function () {
+        // fcToggleTracker can either be 'f' or 'c'
+        if (fcToggleTracker === 'f') {
+            $('#temp').html(weatherData.temp_c + "&deg;");
+            $('#tempToggle').html("C");
+            fcToggleTracker = 'c';
+        } else {
+            $('#temp').html(weatherData.temp_f + "&deg;");
+            $('#tempToggle').html("F");
+            fcToggleTracker = 'f';
+        }
+    });
 });
