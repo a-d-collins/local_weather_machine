@@ -16,14 +16,8 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="js/index.js"></script>
     
-    
-    
-    
-        <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 
-    
-    
-    
   </head>
 
   <body>
@@ -47,14 +41,40 @@
 </script>
 <div class="container-fluid outermostContainer">
   <div id="home-contents" class="well">
-    <h3><span id="quote">--------------</span><span id = "temp"></span><a id='tempToggle'></a></h3>
-    <h5 id="source_and_year"></h5>
+    <div id="townTempBar">
+        <span id="townAndState">Town, State: </span>
+        <div id="tempAndFeelsLike">
+            <div id="tempAndToggle"><div id="conditionsIcon"></div><span id = "temp"></span><a id='tempToggle' class='tempToggleClass'></a></div>
+            <div id="fLike">Feels like: <span id="feelsLike"></span></div>
+        </div>
+    </div>
+    <table id='weatherDataTable'>
+        <col style='width:60%'>
+        <col style='width:40%'>
+        <tr id = 'row1'>
+            <td id = 'wdCategory1'>Conditions:</td>
+            <td id = 'wdCategory1Data'>Cloudy_Icon</td>
+        </tr>
+        <tr id = 'row2'>
+            <td id = 'wdCategory2'>Wind:</td>
+            <td id = 'wdCategory2Data'><span id='windSpeed'>Speed</span>mph, <span id='windDirection'>Dir</span></td>
+        </tr>
+        <tr id = 'row3'>
+            <td id = 'wdCategory3'>Dew Point:</td>
+            <td id = 'wdCategory3Data'><span id='dewPoint'>Dew Point</span> &deg;<a class='tempToggleClass'>F</a></td>
+        </tr>
+        <tr id = 'row4'>
+            <td id = 'wdCategory4'>Humidity:</td>
+            <td id = 'wdCategory4Data'><span id='humidity'>Rel Humidity (%)</span></td>
+        </tr>
+    </table>
     <ul id="social-media-buttons">
-      <li class="social-media"><a id="twitter_button" class="quoteButtons" href="https://twitter.com/share" target="_blank" data-text="Hello World!"><i class="fa fa-twitter"></i></a></li>
-      <li class="social-media"><a id="fb_button" class="quoteButtons" href="#"><i class="fa fa-facebook"></i></a></li>
-      <!--<li class="social-media"><a id="tumblr_button" class="quoteButtons" href="#"><i class="fa fa-tumblr"></i></a></li>-->
+      <li class="social-media"><a id="twitter_button" class="wButtons" href="https://twitter.com/share" target="_blank" data-text="Hello World!"><i class="fa fa-twitter"></i></a></li>
+      <!--FACEBOOK NOT FULLY SUPPORTED YET<li class="social-media"><a id="fb_button" class="wButtons" href="#"><i class="fa fa-facebook"></i></a></li>-->
+      <!--<li class="social-media"><a id="tumblr_button" class="wButtons" href="#"><i class="fa fa-tumblr"></i></a></li>-->
+      <!--FOR TESTING PURPOSES ONLY <li class="social-media"><a id="testButton" class="wButtons" href="#">T</a></li>-->
     </ul>
-    <a id="fcToggleBtn" class="quoteButtons" href="#">&deg;F / &deg;C</a>
+    <a id="updateBtn" class="wButtons" href="#">Update<span id = 'updateLog' class = 'hidden'>Last updated: <span id='updateTime'></span></span></a>
   </div>
   <!-- about-contents-left -->
 

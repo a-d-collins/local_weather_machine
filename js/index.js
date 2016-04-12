@@ -30,17 +30,24 @@ function wUndergroundData(pwsid, callback) {
             var location = parsed_json['location']['city'];
             weatherData = parsed_json['current_observation'];
             var temp_f = weatherData['temp_f'];
-            $('#quote').html("Current temperature in " + pws.neighborhood + " is: ");
+            $('#townAndState').html(pws.neighborhood + ", " + pws.state + ": ");
+            $('#conditionsIcon').css('background-image', 'url("//icons.wxug.com/i/c/v4/' + weatherData.icon + '.svg")');
             $('#temp').html(temp_f + "&deg;");
             $('#tempToggle').html("F");
             fcToggleTracker = 'f';
+            $('#feelsLike').html(weatherData.feelslike_f + "&deg;F");
+            $('#wdCategory1Data').html(weatherData.weather);
+            $('#windSpeed').html(weatherData.wind_gust_mph);
+            $('#windDirection').html(weatherData.wind_dir);
+            $('#dewPoint').html(weatherData.dewpoint_f);
+            $('#humidity').html(weatherData.relative_humidity);
+            
+            if (typeof callback === "function") {
+                // Load Temperature-Based Background (TBB)
+                callback(weatherData.temp_f);
+            }
         }
     });
-    
-    
-    if (typeof callback === "function") {
-        
-    }
 }
 
 // Determine closest PWS then call wUndergroundData function using PWS info
@@ -65,7 +72,7 @@ function closestPWS(latitude, longitude, callback) {
                 //alert("Current pws in " + location + " is: " + pws.neighborhood);
                 //alert("Current pws in " + location + " is: " + pwsid);
                 
-                callback(pwsid);
+                callback(pwsid, loadTBB);
             }
         });
     }
@@ -78,7 +85,7 @@ function gpsLocation (callback) {
         navigator.geolocation.getCurrentPosition(function(position) {
             var latitude = position.coords.latitude;
             var longitude = position.coords.longitude;
-            //$("#quote").html("latitude: " + latitude + "<br>longitude: " + longitude);
+            //$("#townAndState").html("latitude: " + latitude + "<br>longitude: " + longitude);
             if (typeof callback === "function") {
                 callback(latitude, longitude, wUndergroundData);
             }
@@ -88,58 +95,79 @@ function gpsLocation (callback) {
 
 // load Temperature-Based Background --> changes background image, depending on temperature
 function loadTBB(currentTemperature) {
-    
     var backgroundImage;
     // TODO: Choose a background image based on what temperature range the currentTemperature falls within
-    switch (currentTemperature) {
-        // case 1 -- coral
-        case 1: backgroundImage = "rgb(255, 127, 80)";
-            break;
-        // case 2 -- cornflowerblue
-        case 2: backgroundImage = "rgb(100, 149, 237)";
-            break;
-        // case 3 -- chocolate
-        case 3: backgroundImage = "rgb(210, 105, 30)";
-            break;
-        // case 4 -- burlywood
-        case 4: backgroundImage = "rgb(222, 184, 135)";
-            break;
-        // case 5 -- cadetblue
-        case 5: backgroundImage = "rgb(95, 158, 160)";
-            break;
-        // case 6 -- darkseagreen
-        case 6: backgroundImage = "rgb(143, 188, 143)";
-            break;
-        // case 7 -- darkturquoise
-        case 7: backgroundImage = "rgb(143, 188, 143)";
-            break;
-        // case 8 -- goldenrod
-        case 8: backgroundImage = "rgb(218, 165, 32)";
-            break;
-        // case 9 -- lightpink
-        case 9: backgroundImage = "rgb(255, 182, 193)";
-            break;
-        // case 10 -- lightskyblue
-        case 10: backgroundImage = "rgb(135, 206, 250)";
-            break;
-        // case 11 -- mediumaquamarine
-        case 11: backgroundImage = "rgb(102, 205, 170)";
-            break;
-        // case 12 -- olivedrab
-        case 12: backgroundImage = "rgb(107, 142, 35)";
-            break;
-        // case 13 -- peru
-        case 13: backgroundImage = "rgb(205, 133, 63)";
-            break;
-        // case 14 -- plum
-        case 14: backgroundImage = "rgb(221, 160, 221)";
-            break;
-        // case 15 -- tomato
-        case 15: backgroundImage = "rgb(255, 99, 71)";
-            break;
+    if (currentTemperature < 32) {
+        backgroundImage = 'http://www.thesentinel.com/mont/images/jacqui_photo_-_snow_on_norbeck_road.jpg';
+    } else if (currentTemperature < 50) {
+        backgroundImage = 'http://cdn1.landscapehdwalls.com/thumbs/1/evergreen-forest-surrounding-the-lake-4515-706.jpg';
+    } else if (currentTemperature < 70) {
+        backgroundImage = 'http://www.astonhotels.com/assets/slides/690x380-Lake-Tahoe-Summer-Emerald-Bay.jpg';
+    } else if (currentTemperature < 85) {
+        backgroundImage = 'https://theworldtodayandtomorrow.files.wordpress.com/2014/02/lavendersunshine-543421.jpeg';
+    } else {
+        backgroundImage = 'https://amanderings.files.wordpress.com/2013/01/1392471_37955830.jpg';
     }
     
-    return backgroundImage;
+    /* DON'T USE SWITCH STATEMENTS THIS WAY! THIS IS NOT A VALID OPTION IN MANY OTHER PROGRAMMING LANGUAGES
+    switch (currentTemperature) {
+        // case 1
+        case (currentTemperature < 32.0):
+            backgroundImage = 'http://www.thesentinel.com/mont/images/jacqui_photo_-_snow_on_norbeck_road.jpg';
+            break;
+        // case 2
+        case (currentTemperature < 50.0):
+            backgroundImage = 'http://cdn1.landscapehdwalls.com/thumbs/1/evergreen-forest-surrounding-the-lake-4515-706.jpg';
+            break;
+        // case 3
+        case (currentTemperature < 70.0):
+            backgroundImage = 'http://www.astonhotels.com/assets/slides/690x380-Lake-Tahoe-Summer-Emerald-Bay.jpg';
+            break;
+        // case 4
+        case (currentTemperature < 85.0):
+            backgroundImage = 'https://theworldtodayandtomorrow.files.wordpress.com/2014/02/lavendersunshine-543421.jpeg';
+            break;
+        // case 5
+        default:
+            backgroundImage = 'https://amanderings.files.wordpress.com/2013/01/1392471_37955830.jpg';
+    }*/
+    
+    // TODO: Fade in a background that matches the temperature conditions
+    if (backgroundImage !== undefined) {
+        $('body').css('background-image', 'url("' + backgroundImage + '")');
+    } else {
+        alert ("Unable to display background due to lack of weather information.");
+    }
+    
+    return 'url("' + backgroundImage + '")';
+}
+
+// Set update time
+function updateTime () {
+    var d = new Date();
+    
+    function concatTime() {
+        var time = [d.getHours(), d.getMinutes(), d.getSeconds()];
+        var timeString = '';
+        for (var i = 0; i < time.length; i++) {
+            if (time[i] < 10) {
+                timeString += 0;
+            }
+            timeString += time[i];
+            
+            if (i < (time.length - 1)) {
+                timeString += ':';
+            }
+        }
+        
+        return timeString;
+    }
+    
+    $('#updateTime').html(concatTime());
+    
+    if ($('#updateLog').hasClass('hidden')) {
+        $('#updateLog').removeClass('hidden');
+    }
 }
 
 // populate page with weather information
@@ -148,16 +176,16 @@ function displayWeather() {}
 // prepare page
 function preparePage() {
     // Load Temperature-Based Background (TBB)
-    loadTBB();
+    loadTBB(weatherData.temp_f);
     // Display standard weather information
-    displayWeather();
+    //displayWeather();
 }
 
 // load page
 function loadPage() {
     // TODO: INITIATE LOADING SCREEN
     /*initLoadingScreen();*/
-    // TODO: Update GPS location of user
+    // Update GPS location of user
     gpsLocation(closestPWS);
     // prepare page
     /*preparePage();*/
@@ -169,18 +197,59 @@ function loadPage() {
 $(document).ready(function (){
     // display page information
     loadPage();
+    
     // Listen for button/other activity on web page
-    // Farenheit-celsius toggle button (a.k.a. fcToggleBtn)
-    $('#tempToggle').click(function () {
+    // Farenheit-celsius toggle
+    $('.tempToggleClass').click(function () {
         // fcToggleTracker can either be 'f' or 'c'
         if (fcToggleTracker === 'f') {
             $('#temp').html(weatherData.temp_c + "&deg;");
-            $('#tempToggle').html("C");
+            $('#feelsLike').html(weatherData.feelslike_c + "&deg;C");
+            $('#dewPoint').html(weatherData.dewpoint_c);
+            $('.tempToggleClass').html("C");
             fcToggleTracker = 'c';
         } else {
             $('#temp').html(weatherData.temp_f + "&deg;");
-            $('#tempToggle').html("F");
+            $('#feelsLike').html(weatherData.feelslike_f + "&deg;F");
+            $('#dewPoint').html(weatherData.dewpoint_f);
+            $('.tempToggleClass').html("F");
             fcToggleTracker = 'f';
         }
     });
+    
+    /* TEST BACKGROUND TRANSITIONS
+    
+    var counter = 0;
+    $('#testButton').click(function () {
+        if (counter < 1) {
+            $('body').css('background-image', 'url("http://www.thesentinel.com/mont/images/jacqui_photo_-_snow_on_norbeck_road.jpg")');
+            $('#temp').html(100 + "&deg;");
+        } else if (counter < 2) {
+            $('body').css('background-image', 'url("http://cdn1.landscapehdwalls.com/thumbs/1/evergreen-forest-surrounding-the-lake-4515-706.jpg")');
+            $('#temp').html(100 + "&deg;");
+        } else if (counter < 3) {
+            $('body').css('background-image', 'url("http://www.astonhotels.com/assets/slides/690x380-Lake-Tahoe-Summer-Emerald-Bay.jpg")');
+            $('#temp').html(100 + "&deg;");
+        } else if (counter < 4) {
+            $('body').css('background-image', 'url("https://theworldtodayandtomorrow.files.wordpress.com/2014/02/lavendersunshine-543421.jpeg")');
+            $('#temp').html(100 + "&deg;");
+        } else {
+            $('body').css('background-image', 'url("https://amanderings.files.wordpress.com/2013/01/1392471_37955830.jpg")');
+            $('#temp').html(100 + "&deg;");
+            counter = -1;
+        }
+        ++counter;
+    });*/
+    
+    // UPDATE weather conditions
+    $('#updateBtn').click(function (){
+        wUndergroundData(pws.id, loadTBB);
+        
+        updateTime();
+    });
+    
+    // Window resize --> Dynamically change body height (for more: http://tutorialshares.com/dynamically-change-div-height-browser-window-resize/)
+    $(window).resize(function(){ // On resize
+		$('body').css({'height':(($(window).height()))+'px'});
+	});
 });

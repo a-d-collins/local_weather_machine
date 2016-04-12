@@ -1,6 +1,10 @@
 A Pen created at CodePen.io. You can find this one at http://codepen.io/a-d-collins/pen/eJXePv.
 
- Weather_Machine_v.1.1
+ Weather_Machine_v.1.2
+
+1.2:
+-- Get general layout setup
+-- Have background image change depending on temperature
  
 1.1:
 -- Ignore goals of Version 1.0
