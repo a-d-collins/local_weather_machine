@@ -1,0 +1,140 @@
+.outermostContainer {
+  padding: 0px;
+  margin-top: 130px;
+    text-align: center;
+}
+
+#home-contents {
+    position: relative;
+    display: inline-block;
+    width: 50%;
+    border-radius: 10px;
+    margin-bottom: 60px;
+}
+
+h3, h5, .quoteButtons {
+  font-family: 'Droid Serif', serif;
+}
+
+#source_and_year-container {
+    width:100%;
+    height: 35px;
+}
+
+#source_and_year {
+  display: inline-block;
+  text-align: right;
+  width: 90%;
+  margin-bottom: 60px;
+}
+
+#social-media-buttons {
+    list-style: none;
+    position: absolute;
+    left: -8px;
+    bottom: 15px;
+    color: white;
+}
+
+.social-media {
+    position: relative;
+    display: inline-block;
+    border-radius: 5px;
+    height: 40px;
+    width: 40px;
+    margin-left: 5px;
+}
+
+.quoteButtons {
+    display: block;
+    height: 100%;
+    width: 100%;
+    font-size: 30px;
+    border-radius: 5px;
+}
+
+#randomQuoteButton {
+    position: absolute;
+    right: 37px;
+    bottom: 25px;
+    border-radius: 5px;
+    height: 40px;
+    width: 120px;
+    font-size: 20px;
+    padding-top: 5px;
+    text-decoration: none;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+#randomQuoteButton:hover {
+    /* This, oddly, doesn't do anything after the first color change...
+    background-color: slategray;*/
+    /* ahhh... but THIS does. */
+    background-color: slategray!important;
+    transition: background-color 0.3s ease;
+}
+
+.quoteButtons {
+  color: white;
+}
+
+body, .quoteButtons {
+    background-color: cadetblue;
+}
+
+#home-contents {
+    color: cadetblue;
+}
+
+/* @media events may be needed at some point
+
+@media only screen and (min-width: 400px) {
+  #project-container {
+    width: 300px;
+  }
+  a div {
+    width: 200px
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  #project-container {
+    width: 550px;
+  }
+}
+
+@media only screen and (min-width: 872px) {
+  #project-container {
+    width: 830px;
+  }
+}*/
+
+
+.btn-stack-container {
+    display: inline-block;
+    width: auto;
+}
+
+.contact-btn-stack {
+  display: block;
+  margin: 15px;
+}
+
+#header {}
+
+.bottomBar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  background-color: #e6e6e6;
+  text-align: center;
+}
+
+#bottom-bar-content {
+  position: absolute;
+  left: 0%;
+  top: 5%;
+  width: 100%;
+}
