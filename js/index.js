@@ -37,6 +37,7 @@ function wUndergroundData(pwsid, callback1, callback2) {
             weatherData = parsed_json['current_observation'];
             var temp_f = weatherData['temp_f'];
             $('#townAndState').html(pws.neighborhood + ", " + pws.state + ": ");
+            // Set #conditionsIcon
             $('#conditionsIcon').css('background-image', 'url("//icons.wxug.com/i/c/v4/' + weatherData.icon + '.svg")');
             $('#temp').html(temp_f + "&deg;");
             $('#tempToggle').html("F");
